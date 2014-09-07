@@ -1,0 +1,6 @@
+#!/bin/bash
+heroku config:add TRELLO_DEVELOPER_PUBLIC_KEY=$TRELLO_DEVELOPER_PUBLIC_KEY
+heroku config:add TRELLO_TOKEN=$TRELLO_TOKEN
+heroku config:add TRELLO_TO_CHATWORK=$TRELLO_TO_CHATWORK
+heroku config:add HEROKU_URL=$HEROKU_URL
+heroku config:add CHATWORK_TOKEN=$CHATWORK_TOKEN
