@@ -23,7 +23,7 @@ post '/cb' do
 end
 
 head '/cb' do
-  p 'for webhook'
+  'for webhook'
 end
 
 # delete webhook
