@@ -22,6 +22,10 @@ post '/cb' do
   notifiers.notify(json)
 end
 
+head '/cb' do
+  p 'for webhook'
+end
+
 # delete webhook
 # Require before `run Sinatra::Application`
 at_exit do
