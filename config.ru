@@ -6,6 +6,9 @@ run Sinatra::Appliction
 hooks = Hooks.new
 hooks.create
 
+# notifiers
+notifiers = Notifiers.new(hooks.routes)
+
 # delete webhook
 # Require before `run Sinatra::Application`
 at_exit do

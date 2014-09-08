@@ -5,9 +5,6 @@ require "#{File.expand_path(File.dirname(__FILE__))}/notifiers"
 
 set :server, 'thin'
 
-# notifiers
-notifiers = Notifiers.new(hooks.routes)
-
 get '/' do
   'trello to chatwork'
 end
