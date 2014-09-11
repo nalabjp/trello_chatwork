@@ -9,7 +9,7 @@ class Notifiers
   end
 
   def notify(json)
-    res = ChatWork::Message.create(@routes[json['model']['id']], parse(json))
+    res = ChatWork::Message.create(room_id: @routes[json['model']['id']], body: parse(json))
     if res['message_id']
       p "Completed send message: https://www.chatwork.com/#!rid#{@routes[json['model']['id']]}-#{res['message_id']}"
     else
