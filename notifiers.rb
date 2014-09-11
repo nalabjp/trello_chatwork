@@ -1,4 +1,5 @@
 require 'chatwork'
+require 'active_support'
 require 'active_support/core_ext'
 
 class Notifiers
