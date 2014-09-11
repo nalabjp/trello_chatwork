@@ -13,3 +13,4 @@ gem 'ruby-trello'
 gem 'chatwork'
 
 gem 'pry',  group: :development
+gem 'pry-byebug',  group: :development
