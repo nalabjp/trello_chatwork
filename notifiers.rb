@@ -20,7 +20,7 @@ class Notifiers
 private
   def parse(json)
     action_type = json['action']['type'].underscore
-    if respond_to?(action_type)
+    if respond_to?(action_type, true)
       __send__(action_type, json)
     else
       p "Undefined action type : #{action_type}"
