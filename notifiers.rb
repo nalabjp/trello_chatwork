@@ -19,7 +19,7 @@ class Notifiers
 
 private
   def parse(json)
-    action_type = json['action']['type'].undercore
+    action_type = json['action']['type'].underscore
     if respond_to?(action_type)
       __send__(action_type, json)
     else
