@@ -13,7 +13,7 @@ end
 
 post '/cb' do
   json = JSON.parse(request.body.read)
-  notifiers.notify(json)
+  @@notifiers.notify(json)
 end
 
 head '/cb' do
@@ -36,7 +36,7 @@ EM::defer do
 end
 
 # notifiers
-notifiers = Notifiers.new(hooks.routes)
+@@notifiers = Notifiers.new(hooks.routes)
 
 # delete webhook
 # Require before `run Sinatra::Application`
