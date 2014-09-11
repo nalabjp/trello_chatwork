@@ -1,6 +1,6 @@
 require 'thor'
 require 'trello'
-require "#{File.expand_path(File.dirname(__FILE__))}/configuration"
+require "#{File.expand_path(File.dirname(__FILE__))}/src/configuration"
 
 class CLI < Thor
   desc 'board NAME', 'Show board detail from board name'
