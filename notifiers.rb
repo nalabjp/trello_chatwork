@@ -1,4 +1,5 @@
 require 'chatwork'
+require 'active_support'
 require 'active_support/core_ext'
 
 class Notifiers
@@ -8,7 +9,7 @@ class Notifiers
   end
 
   def notify(json)
-    res = ChatWork::Message.create(@routes[json['model']['id']], parse(json))
+    res = ChatWork::Message.create(room_id: @routes[json['model']['id']], body: parse(json))
     if res['message_id']
       p "Completed send message: https://www.chatwork.com/#!rid#{@routes[json['model']['id']]}-#{res['message_id']}"
     else
@@ -18,8 +19,8 @@ class Notifiers
 
 private
   def parse(json)
-    action_type = json['action']['type'].undercore
-    if respond_to?(action_type)
+    action_type = json['action']['type'].underscore
+    if respond_to?(action_type, true)
       __send__(action_type, json)
     else
       p "Undefined action type : #{action_type}"
