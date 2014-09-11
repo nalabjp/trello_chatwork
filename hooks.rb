@@ -14,7 +14,7 @@ class Hooks
       hook = Trello::Webhook.create(
         description: "webhook in #{ENV['HEROKU_URL']}: Trello board #{key} to ChatWork room #{val}",
         id_model: key,
-        callback_url: "#{ENV['HEROKU_URL']}/cb"
+        callback_url: "#{ENV['HEROKU_URL']}"
       )
       p "Create Webhook -> id: #{hook.id}"
       @hooks.push(hook)
