@@ -4,7 +4,6 @@ require 'json'
 require 'eventmachine'
 require "#{File.expand_path(File.dirname(__FILE__))}/notifiers"
 require "#{File.expand_path(File.dirname(__FILE__))}/hooks"
-require 'pry-byebug'
 
 set :server, 'thin'
 
@@ -20,6 +19,7 @@ end
 head '/cb' do
   'for webhook'
 end
+
 # create webhook
 hooks = Hooks.new
 EM::defer do
