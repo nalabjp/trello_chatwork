@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+require "#{File.expand_path(File.dirname(__FILE__))}/message.rb"
 
 class Parser
   class << self
@@ -16,17 +17,26 @@ class Parser
 
   private
     def create_card(json)
-      "'#{json['action']['memberCreator']['fullName']}'が'#{json['action']['data']['card']['name']}'カードを'#{json['action']['data']['list']['name']}'リストに作成しました"
+      Message.create_card(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['list']['name']
+      )
     end
 
     def comment_card(json)
-      "'#{json['action']['memberCreator']['fullName']}'が'#{json['action']['data']['list']['name']}'リストの'#{json['action']['data']['card']['name']}'カードに'#{json['action']['data']['text']}'とコメントしました"
+      Message.comment_card(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['list']['name'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['text']
+      )
     end
 
     def update_card(json)
       if json['action']['data']['old']['idList'].present? &&
-        json['action']['data']['listAfter'].present? &&
-        json['action']['data']['listBefore'].present?
+          json['action']['data']['listAfter'].present? &&
+          json['action']['data']['listBefore'].present?
         move_list(json)
       else
         p 'Undefined pattern in updateCard'
@@ -40,7 +50,12 @@ class Parser
     end
 
     def move_list(json)
-      "'#{json['action']['memberCreator']['fullName']}'が'#{json['action']['data']['card']['name']}'カードを'#{json['action']['data']['listBefore']['name']}'リストから'#{json['action']['data']['listAfter']['name']}'リストに移動しました"
+      Message.move_list(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['listBefore']['name'],
+        json['action']['data']['listAfter']['name']
+      )
     end
   end
 end
