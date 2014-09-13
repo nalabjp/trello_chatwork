@@ -34,12 +34,19 @@ class Parser
     end
 
     def update_card(json)
+      p "---------- debug ----------"
+      p "json['action']['data']['old']['idList']: #{json['action']['data']['old']['idList']}"
+      p "json['action']['data']['listAfter']: #{json['action']['data']['listAfter']}"
+      p "json['action']['data']['listBefore']: #{json['action']['data']['listBefore']}"
+      p "json['action']['data']['old']['pos']: #{json['action']['data']['old']['pos']}"
+      p "json['action']['data']['card']['pos']: #{json['action']['data']['card']['pos']}"
+      p "---------- debug ----------"
       if json['action']['data']['old']['idList'].present? &&
           json['action']['data']['listAfter'].present? &&
           json['action']['data']['listBefore'].present?
         move_list(json)
-      elsif json["action"]["data"]["old"]["pos"].present? &&
-            json["action"]["data"]["card"]["pos"].present?
+      elsif json['action']['data']['old']['pos'].present? &&
+            json['action']['data']['card']['pos'].present?
         move_position(json)
       else
         p 'Undefined pattern in updateCard'
@@ -62,7 +69,7 @@ class Parser
     end
 
     def move_position(json)
-      if json["action"]["data"]["old"]["pos"].to_f < json["action"]["data"]["card"]["pos"].to_f
+      if json['action']['data']['old']['pos'].to_f < json['action']['data']['card']['pos'].to_f
         up_position(json)
       else
         down_position(json)
