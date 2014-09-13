@@ -38,6 +38,9 @@ class Parser
           json['action']['data']['listAfter'].present? &&
           json['action']['data']['listBefore'].present?
         move_list(json)
+      elsif json["action"]["data"]["old"]["pos"].present? &&
+            json["action"]["data"]["card"]["pos"].present?
+        move_position(json)
       else
         p 'Undefined pattern in updateCard'
         p json.inspect
@@ -55,6 +58,30 @@ class Parser
         json['action']['data']['card']['name'],
         json['action']['data']['listBefore']['name'],
         json['action']['data']['listAfter']['name']
+      )
+    end
+
+    def move_position(json)
+      if json["action"]["data"]["old"]["pos"].to_f < json["action"]["data"]["card"]["pos"].to_f
+        up_position(json)
+      else
+        down_position(json)
+      end
+    end
+
+    def up_position(json)
+      Message.up_position(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['list']['name']
+      )
+    end
+
+    def down_position(json)
+      Message.down_position(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['list']['name']
       )
     end
   end
