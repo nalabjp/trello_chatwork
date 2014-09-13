@@ -104,5 +104,31 @@ class Parser
         json['action']['data']['list']['name']
       )
     end
+
+    def update_list(json)
+      if !json['action']['data']['old']['closed'].nil? &&
+            !json['action']['data']['list']['closed'].nil?
+        if json['action']['data']['old']['closed'] == false &&
+            json['action']['data']['list']['closed'] == true
+          archive_list(json)
+        else
+          unarchive_list(json)
+        end
+      end
+    end
+
+    def archive_list(json)
+      Message::List.archive(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['list']['name']
+      )
+    end
+
+    def unarchive_list(json)
+      Message::List.unarchive(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['list']['name']
+      )
+    end
   end
 end

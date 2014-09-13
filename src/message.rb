@@ -30,4 +30,16 @@ module Message
       end
     end
   end
+
+  class List
+    class << self
+      def archive(full_name, list_name)
+        "'#{full_name}'が'#{list_name}'リストをアーカイブしました"
+      end
+
+      def unarchive(full_name, list_name)
+        "'#{full_name}'がアーカイブしていた'#{list_name}'リストを戻しました"
+      end
+    end
+  end
 end
