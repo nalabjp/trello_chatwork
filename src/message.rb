@@ -1,4 +1,4 @@
-class Messaage
+class Message
   class << self
     def create_card(full_name, card_name, list_name)
       "'#{full_name}'が'#{card_name}'カードを'#{list_name}'リストに作成しました"
