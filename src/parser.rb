@@ -17,7 +17,7 @@ class Parser
 
   private
     def create_card(json)
-      Message.create_card(
+      Message::Card.create(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['list']['name']
@@ -25,7 +25,7 @@ class Parser
     end
 
     def comment_card(json)
-      Message.comment_card(
+      Message::Card.comment(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['list']['name'],
         json['action']['data']['card']['name'],
@@ -34,20 +34,17 @@ class Parser
     end
 
     def update_card(json)
-      p "---------- debug ----------"
-      p "json['action']['data']['old']['idList']: #{json['action']['data']['old']['idList']}"
-      p "json['action']['data']['listAfter']: #{json['action']['data']['listAfter']}"
-      p "json['action']['data']['listBefore']: #{json['action']['data']['listBefore']}"
-      p "json['action']['data']['old']['pos']: #{json['action']['data']['old']['pos']}"
-      p "json['action']['data']['card']['pos']: #{json['action']['data']['card']['pos']}"
-      p "---------- debug ----------"
       if json['action']['data']['old']['idList'].present? &&
           json['action']['data']['listAfter'].present? &&
           json['action']['data']['listBefore'].present?
-        move_list(json)
+        move_card(json)
       elsif json['action']['data']['old']['pos'].present? &&
             json['action']['data']['card']['pos'].present?
-        move_position(json)
+        if json['action']['data']['old']['pos'].to_f > json['action']['data']['card']['pos'].to_f
+          up_card_position(json)
+        else
+          down_card_position(json)
+        end
       elsif !json['action']['data']['old']['closed'].nil? &&
             !json['action']['data']['card']['closed'].nil?
         if json['action']['data']['old']['closed'] == false &&
@@ -67,8 +64,8 @@ class Parser
       'Undefined pattern in updateCard'
     end
 
-    def move_list(json)
-      Message.move_list(
+    def move_card(json)
+      Message::Card.move(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['listBefore']['name'],
@@ -76,24 +73,16 @@ class Parser
       )
     end
 
-    def move_position(json)
-      if json['action']['data']['old']['pos'].to_f > json['action']['data']['card']['pos'].to_f
-        up_position(json)
-      else
-        down_position(json)
-      end
-    end
-
-    def up_position(json)
-      Message.up_position(
+    def up_card_position(json)
+      Message::Card.up_position(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['list']['name']
       )
     end
 
-    def down_position(json)
-      Message.down_position(
+    def down_card_position(json)
+      Message::Card.down_position(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['list']['name']
@@ -101,7 +90,7 @@ class Parser
     end
 
     def archive_card(json)
-      Message.archive_card(
+      Message::Card.archive(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['list']['name']
@@ -109,7 +98,7 @@ class Parser
     end
 
     def unarchive_card(json)
-      Message.unarchive_card(
+      Message::Card.unarchive(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['list']['name']
