@@ -69,7 +69,7 @@ class Parser
     end
 
     def move_position(json)
-      if json['action']['data']['old']['pos'].to_f < json['action']['data']['card']['pos'].to_f
+      if json['action']['data']['old']['pos'].to_f > json['action']['data']['card']['pos'].to_f
         up_position(json)
       else
         down_position(json)
