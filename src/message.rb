@@ -19,5 +19,13 @@ class Message
     def down_position(full_name, card_name, list_name)
       "'#{full_name}'が'#{list_name}'リストの'#{card_name}'カードの優先度を下げました"
     end
+
+    def archive_card(full_name, card_name, list_name)
+      "'#{full_name}'が'#{list_name}'リストの'#{card_name}'カードをアーカイブしました"
+    end
+
+    def unarchive_card(full_name, card_name, list_name)
+      "'#{full_name}'がアーカイブしていた'#{card_name}'カードを'#{list_name}'リストに戻しました"
+    end
   end
 end

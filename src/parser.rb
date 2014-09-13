@@ -48,6 +48,14 @@ class Parser
       elsif json['action']['data']['old']['pos'].present? &&
             json['action']['data']['card']['pos'].present?
         move_position(json)
+      elsif !json['action']['data']['old']['closed'].nil? &&
+            !json['action']['data']['card']['closed'].nil?
+        if json['action']['data']['old']['closed'] == false &&
+            json['action']['data']['card']['closed'] == true
+          archive_card(json)
+        else
+          unarchive_card(json)
+        end
       else
         p 'Undefined pattern in updateCard'
         p json.inspect
@@ -86,6 +94,22 @@ class Parser
 
     def down_position(json)
       Message.down_position(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['list']['name']
+      )
+    end
+
+    def archive_card(json)
+      Message.archive_card(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['list']['name']
+      )
+    end
+
+    def unarchive_card(json)
+      Message.unarchive_card(
         json['action']['memberCreator']['fullName'],
         json['action']['data']['card']['name'],
         json['action']['data']['list']['name']
