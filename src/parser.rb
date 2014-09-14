@@ -113,6 +113,14 @@ class Parser
       )
     end
 
+    def remove_member_from_card(json)
+      Message::Card.remove_member(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['member']['fullName']
+      )
+    end
+
     def update_list(json)
       if !json['action']['data']['old']['closed'].nil? &&
             !json['action']['data']['list']['closed'].nil?

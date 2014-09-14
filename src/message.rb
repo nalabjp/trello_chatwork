@@ -32,6 +32,10 @@ module Message
       def add_member(creator_name, card_name, member_name)
         "'#{creator_name}'が'#{member_name}'を'#{card_name}'カードのメンバーに追加しました"
       end
+
+      def remove_member(creator_name, card_name, member_name)
+        "'#{creator_name}'が'#{member_name}'を'#{card_name}'カードのメンバーから削除しました"
+      end
     end
   end
 
