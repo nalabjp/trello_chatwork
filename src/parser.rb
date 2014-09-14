@@ -54,9 +54,7 @@ class Parser
           unarchive_card(json)
         end
       else
-        p 'Undefined pattern in updateCard'
-        p json.inspect
-        'Undefined pattern in updateCard'
+        raise 'Undefined pattern in updateCard'
       end
     rescue => e
       p e
