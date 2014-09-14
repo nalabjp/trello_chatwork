@@ -28,6 +28,10 @@ module Message
       def unarchive(full_name, card_name, list_name)
         "'#{full_name}'がアーカイブしていた'#{card_name}'カードを'#{list_name}'リストに戻しました"
       end
+
+      def add_member(creator_name, card_name, member_name)
+        "'#{creator_name}'が'#{member_name}'を'#{card_name}'カードのメンバーに追加しました"
+      end
     end
   end
 
