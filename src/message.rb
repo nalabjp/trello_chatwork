@@ -36,6 +36,14 @@ module Message
       def remove_member(creator_name, card_name, member_name)
         "'#{creator_name}'が'#{member_name}'を'#{card_name}'カードのメンバーから削除しました"
       end
+
+      def add_label(creator_name, card_name, label_name)
+        "'#{creator_name}'が'#{card_name}'カードに'#{label_name}'ラベルを追加しました"
+      end
+
+      def remove_label(creator_name, card_name, label_name)
+        "'#{creator_name}'が'#{card_name}'カードの'#{label_name}'ラベルを削除しました"
+      end
     end
   end
 

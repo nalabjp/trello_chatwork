@@ -119,6 +119,22 @@ class Parser
       )
     end
 
+    def add_label_to_card(json)
+      Message::Card.add_label(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['text'].presence || json['action']['data']['value']
+      )
+    end
+
+    def remove_label_from_card(json)
+      Message::Card.remove_label(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['text'].presence || json['action']['data']['value']
+      )
+    end
+
     def update_list(json)
       if !json['action']['data']['old']['closed'].nil? &&
             !json['action']['data']['list']['closed'].nil?
