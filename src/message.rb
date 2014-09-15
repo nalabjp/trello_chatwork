@@ -52,6 +52,14 @@ module Message
       def remove_checklist(creator, card, checklist)
         "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストを削除しました"
       end
+
+      def create_check_item(creator, card, checklist, checkitem)
+        "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストに'#{checkitem}'を追加しました"
+      end
+
+      def delete_check_item(creator, card, checklist, checkitem)
+        "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストから'#{checkitem}'を削除しました"
+      end
     end
   end
 
