@@ -136,6 +136,22 @@ class Parser
       )
     end
 
+    def add_checklist_to_card(json)
+      Message::Card.add_checklist(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['checklist']['name']
+      )
+    end
+
+    def remove_checklist_from_card(json)
+      Message::Card.remove_checklist(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['checklist']['name']
+      )
+    end
+
     def update_list(json)
       if !json['action']['data']['old']['closed'].nil? &&
             !json['action']['data']['list']['closed'].nil?

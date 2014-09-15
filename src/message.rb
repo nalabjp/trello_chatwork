@@ -44,6 +44,14 @@ module Message
       def remove_label(creator, card, label)
         "'#{creator}'が'#{card}'カードの'#{label}'ラベルを削除しました"
       end
+
+      def add_checklist(creator, card, checklist)
+        "'#{creator}'が'#{card}'カードに'#{checklist}'チェックリストを追加しました"
+      end
+
+      def remove_checklist(creator, card, checklist)
+        "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストを削除しました"
+      end
     end
   end
 
