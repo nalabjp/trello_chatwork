@@ -1,25 +1,22 @@
 require 'active_support'
 require 'active_support/core_ext'
-require "#{File.expand_path(File.dirname(__FILE__))}/message.rb"
+require "#{File.expand_path(File.dirname(__FILE__))}/message"
 
 class Parser
   class << self
     def parse(json)
       action_type = json['action']['type'].underscore
       if respond_to?(action_type, true)
-        message(action_type, json)
+        msg = __send__(action_type,  json)
       else
         p "Undefined action type : #{action_type}"
         p json.inspect
-        "Undefined action type named '#{action_type}'. Please contact the author..."
+        msg = "Undefined action type named '#{action_type}'. Please contact the author..."
       end
+      "[Trello Notification]\n#{msg}\n#{json['model']['url']}"
     end
 
   private
-    def message(action_type, json)
-      "[Trello Notification]\n#{__send__(action_type, json)}\n#{json['model']['url']}"
-    end
-
     def create_card(json)
       Message::Card.create(
         json['action']['memberCreator']['fullName'],
