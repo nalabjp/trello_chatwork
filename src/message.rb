@@ -82,6 +82,15 @@ module Message
         "'#{creator}'が'#{list}'リストの'#{card}'カードの期日を削除しました"
       end
 
+      def add_attachment(creator, card, attachment, url)
+        "'#{creator}'が''#{card}'カードに添付ファイル'#{attachment}'を追加しました\n#{url}"
+      end
+
+      def delete_attachment(creator, card, attachment)
+        "'#{creator}'が''#{card}'カードの添付ファイル'#{attachment}'を削除しました"
+      end
+
+    private
       def strftime_jst(datetime)
         Time.parse(datetime).in_time_zone('Tokyo').strftime('%Y/%m/%d %H:%M')
       end

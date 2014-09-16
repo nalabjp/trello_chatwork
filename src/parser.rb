@@ -225,6 +225,23 @@ class Parser
       )
     end
 
+    def add_attachment_to_card(json)
+      Message::Card.add_attachment(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['attachment']['name'],
+        json['action']['data']['attachment']['url']
+      )
+    end
+
+    def delete_attachment_from_card(json)
+      Message::Card.delete_attachment(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['attachment']['name']
+      )
+    end
+
     def update_list(json)
       if !json['action']['data']['old']['closed'].nil? &&
             !json['action']['data']['list']['closed'].nil?
