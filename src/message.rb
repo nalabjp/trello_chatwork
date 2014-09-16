@@ -99,6 +99,10 @@ module Message
 
   class List
     class << self
+      def create(creator, list)
+        "'#{creator}'が'#{list}'リストを作成しました"
+      end
+
       def archive(creator, list)
         "'#{creator}'が'#{list}'リストをアーカイブしました"
       end
