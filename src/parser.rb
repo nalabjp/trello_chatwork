@@ -57,8 +57,8 @@ class Parser
         elsif !json['action']['data']['old']['due'].nil? &&
               !json['action']['data']['card']['due'].nil?
           update_due_date(json)
-        elsif json['action']['data']['old']['due'].nil? &&
-              !json['action']['data']['card']['due'].nil?
+        elsif !json['action']['data']['old']['due'].nil? &&
+              json['action']['data']['card']['due'].nil?
           remove_due_date(json)
         end
       else
