@@ -5,15 +5,20 @@ require "#{File.expand_path(File.dirname(__FILE__))}/message"
 class Parser
   class << self
     def parse(json)
-      action_type = json['action']['type'].underscore
-      if respond_to?(action_type, true)
-        msg = __send__(action_type,  json)
-      else
-        p "Undefined action type : #{action_type}"
+      begin
+        action_type = json['action']['type'].underscore
+        if respond_to?(action_type, true)
+          msg = __send__(action_type,  json)
+        else
+          raise "Undefined action type : #{action_type}"
+        end
+      rescue => e
+        p e
         p json.inspect
         msg = "Undefined action type named '#{action_type}'. Please contact the author..."
+      ensure
+        "[Trello Notification]\n#{msg}\n#{json['model']['url']}"
       end
-      "[Trello Notification]\n#{msg}\n#{json['model']['url']}"
     end
 
   private
@@ -64,10 +69,6 @@ class Parser
       else
         raise 'Undefined pattern in updateCard'
       end
-    rescue => e
-      p e
-      p json.inspect
-      'Undefined pattern in updateCard'
     end
 
     def move_card(json)
