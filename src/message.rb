@@ -69,6 +69,22 @@ module Message
         state = state.eql?("complete") ? "完了" : "未完了"
         "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストの'#{checkitem}'を'#{state}'にしました"
       end
+
+      def add_due_date(creator, card, list, new_due_date)
+        "'#{creator}'が'#{list}'リストの'#{card}'カードの期日を'#{strftime_jst(new_due_date)}'に設定しました"
+      end
+
+      def update_due_date(creator, card, list, new_due_date, old_due_date)
+        "'#{creator}'が'#{list}'リストの'#{card}'カードの期日を'#{strftime_jst(old_due_date)}'から'#{strftime_jst(new_due_date)}'に更新しました"
+      end
+
+      def remove_due_date(creator, card, list)
+        "'#{creator}'が'#{list}'リストの'#{card}'カードの期日を削除しました"
+      end
+
+      def strftime_jst(datetime)
+        Time.parse(datetime).in_time_zone('Tokyo').strftime('%Y/%m/%d %H:%M')
+      end
     end
   end
 

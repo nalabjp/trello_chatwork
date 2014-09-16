@@ -54,6 +54,17 @@ class Parser
         else
           unarchive_card(json)
         end
+      elsif json['action']['data']['old'].has_key?('due')
+        if json['action']['data']['old']['due'].nil? &&
+            !json['action']['data']['card']['due'].nil?
+          add_due_date(json)
+        elsif !json['action']['data']['old']['due'].nil? &&
+              !json['action']['data']['card']['due'].nil?
+          update_due_date(json)
+        elsif json['action']['data']['old']['due'].nil? &&
+              !json['action']['data']['card']['due'].nil?
+          remove_due_date(json)
+        end
       else
         raise 'Undefined pattern in updateCard'
       end
@@ -187,6 +198,34 @@ class Parser
         json['action']['data']['checklist']['name'],
         json['action']['data']['checkItem']['name'],
         json['action']['data']['checkItem']['state']
+      )
+    end
+
+    def add_due_date(json)
+      Message::Card.add_due_date(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['list']['name'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['card']['due']
+      )
+    end
+
+    def update_due_date(json)
+      Message::Card.update_due_date(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['list']['name'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['card']['due'],
+        json['action']['data']['old']['due']
+      )
+
+    end
+
+    def remove_due_date(json)
+      Message::Card.remove_due_date(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['list']['name'],
+        json['action']['data']['card']['name']
       )
     end
 
