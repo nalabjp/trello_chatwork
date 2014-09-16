@@ -60,6 +60,15 @@ module Message
       def delete_check_item(creator, card, checklist, checkitem)
         "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストから'#{checkitem}'を削除しました"
       end
+
+      def update_check_item(creator, card, checklist, checkitem, old_checkitem)
+        "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストの'#{old_checkitem}'を'#{checkitem}'に更新しました"
+      end
+
+      def update_check_item_state_on_card(creator, card, checklist, checkitem, state)
+        state = state.eql?("complete") ? "完了" : "未完了"
+        "'#{creator}'が'#{card}'カードの'#{checklist}'チェックリストの'#{checkitem}'を'#{state}'にしました"
+      end
     end
   end
 

@@ -170,6 +170,26 @@ class Parser
       )
     end
 
+    def update_check_item(json)
+      Message::Card.update_check_item(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['checklist']['name'],
+        json['action']['data']['checkItem']['name'],
+        json['action']['data']['old']['name']
+      )
+    end
+
+    def update_check_item_state_on_card(json)
+      Message::Card.update_check_item_state_on_card(
+        json['action']['memberCreator']['fullName'],
+        json['action']['data']['card']['name'],
+        json['action']['data']['checklist']['name'],
+        json['action']['data']['checkItem']['name'],
+        json['action']['data']['checkItem']['state']
+      )
+    end
+
     def update_list(json)
       if !json['action']['data']['old']['closed'].nil? &&
             !json['action']['data']['list']['closed'].nil?
