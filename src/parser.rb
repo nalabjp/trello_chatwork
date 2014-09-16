@@ -35,19 +35,15 @@ class Parser
     end
 
     def update_card(json)
-      if json['action']['data']['old']['idList'].present? &&
-          json['action']['data']['listAfter'].present? &&
-          json['action']['data']['listBefore'].present?
+      if json['action']['data']['old'].has_key?('idList')
         move_card(json)
-      elsif json['action']['data']['old']['pos'].present? &&
-            json['action']['data']['card']['pos'].present?
+      elsif json['action']['data']['old'].has_key?('pos')
         if json['action']['data']['old']['pos'].to_f > json['action']['data']['card']['pos'].to_f
           up_card_position(json)
         else
           down_card_position(json)
         end
-      elsif !json['action']['data']['old']['closed'].nil? &&
-            !json['action']['data']['card']['closed'].nil?
+      elsif json['action']['data']['old'].has_key?('closed')
         if json['action']['data']['old']['closed'] == false &&
             json['action']['data']['card']['closed'] == true
           archive_card(json)
