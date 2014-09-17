@@ -9,7 +9,7 @@ class Parser
       begin
         action_type = json['action']['type'].underscore
         if respond_to?(action_type, true)
-          message(__send__(action_type,  json), json['model']['url'])
+          message(__send__(action_type, json), json['model']['url'])
         else
           raise "Undefined action type : #{action_type}"
         end
@@ -22,7 +22,11 @@ class Parser
 
   private
     def message(msg, url)
-      "[Trello Notification]\n#{msg}\n#{url}"
+      {
+        title: "Trello Notification",
+        body: msg,
+        footer: url
+      }
     end
 
     def create_card(json)
