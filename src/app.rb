@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'json'
 require 'eventmachine'
+require "#{File.expand_path(File.dirname(__FILE__))}/app_logger"
 require "#{File.expand_path(File.dirname(__FILE__))}/notifiers"
 require "#{File.expand_path(File.dirname(__FILE__))}/hooks"
 
@@ -27,9 +28,9 @@ EM::defer do
   begin
     sleep 3
     hooks.create
-    p 'Created hooks!!'
+    AppLogger.info('Created hooks!!')
   rescue
-    p 'Failed to create hooks...'
+    AppLogger.info('Failed to create hooks...')
     retries += 1
     retry if retries < 5
   end
@@ -41,7 +42,7 @@ end
 # delete webhook
 # Require before `run Sinatra::Application`
 at_exit do
-  p 'at_exit start'
+  AppLogger.info('at_exit start')
   hooks.delete
-  p 'at_exit end'
+  AppLogger.info('at_exit end')
 end

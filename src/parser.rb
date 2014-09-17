@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+require "#{File.expand_path(File.dirname(__FILE__))}/app_logger"
 require "#{File.expand_path(File.dirname(__FILE__))}/message"
 
 class Parser
@@ -8,20 +9,22 @@ class Parser
       begin
         action_type = json['action']['type'].underscore
         if respond_to?(action_type, true)
-          msg = __send__(action_type,  json)
+          message(__send__(action_type,  json), json['model']['url'])
         else
           raise "Undefined action type : #{action_type}"
         end
       rescue => e
-        p e
-        p json.inspect
-        msg = "Undefined action type named '#{action_type}'. Please contact the author..."
-      ensure
-        "[Trello Notification]\n#{msg}\n#{json['model']['url']}"
+        AppLogger.error(e.inspect)
+        AppLogger.debug(json.inspect)
+        message("Undefined action type named '#{action_type}'. Please contact the author...", json['model']['url'])
       end
     end
 
   private
+    def message(msg, url)
+      "[Trello Notification]\n#{msg}\n#{url}"
+    end
+
     def create_card(json)
       Message::Card.create(
         json['action']['memberCreator']['fullName'],
