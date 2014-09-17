@@ -11,7 +11,7 @@ class Notifiers
   end
 
   def notify(json)
-    res = ChatWork::Message.create(room_id: @routes[json['model']['id']], body: parse(json))
+    res = ChatWork::Message.create(room_id: @routes[json['model']['id']], body: decorate_for_chatwork(parse(json)))
     if res['message_id']
       AppLogger.info("Completed send message: https://www.chatwork.com/#!rid#{@routes[json['model']['id']]}-#{res['message_id']}")
     else
@@ -22,5 +22,9 @@ class Notifiers
 private
   def parse(json)
     Parser.parse(json)
+  end
+
+  def decorate_for_chatwork(msg)
+    "[info][title]#{msg[:title]}[/title]#{msg[:body]}\n#{msg[:footer]}[/info]"
   end
 end
