@@ -1,6 +1,7 @@
 require 'chatwork'
 require 'active_support'
 require 'active_support/core_ext'
+require "#{File.expand_path(File.dirname(__FILE__))}/app_logger"
 require "#{File.expand_path(File.dirname(__FILE__))}/parser"
 
 class Notifiers
@@ -12,9 +13,9 @@ class Notifiers
   def notify(json)
     res = ChatWork::Message.create(room_id: @routes[json['model']['id']], body: parse(json))
     if res['message_id']
-      p "Completed send message: https://www.chatwork.com/#!rid#{@routes[json['model']['id']]}-#{res['message_id']}"
+      AppLogger.info("Completed send message: https://www.chatwork.com/#!rid#{@routes[json['model']['id']]}-#{res['message_id']}")
     else
-      p "Failed to send message..."
+      AppLogger.info("Failed to send message...")
     end
   end
 

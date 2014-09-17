@@ -1,4 +1,5 @@
 require 'trello'
+require "#{File.expand_path(File.dirname(__FILE__))}/app_logger"
 require "#{File.expand_path(File.dirname(__FILE__))}/configuration"
 
 class Hooks
@@ -16,14 +17,14 @@ class Hooks
         id_model: key,
         callback_url: "#{ENV['HEROKU_URL']}"
       )
-      p "Create Webhook -> id: #{hook.id}"
+      AppLogger.info("Create Webhook -> id: #{hook.id}")
       @hooks.push(hook)
     end
   end
 
   def delete
     @hooks.each do |hook|
-      p "Delete Webhook -> id: #{hook.id}"
+      AppLogger.info("Delete Webhook -> id: #{hook.id}")
       Trello::Webhook.find(hook.id).delete
     end
   end
