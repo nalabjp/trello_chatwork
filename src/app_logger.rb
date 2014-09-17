@@ -23,5 +23,9 @@ class AppLogger
     def method_missing(method, *args, &block)
       logger.public_send(method, *args, &block)
     end
+
+    def respond_to_missing?(method, include_private = false)
+      logger.respond_to?(method)
+    end
   end
 end
