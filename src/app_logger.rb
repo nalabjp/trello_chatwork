@@ -3,7 +3,7 @@ require 'logger'
 class AppLogger
   class << self
     def logdev
-      @logdev || $stdout
+      @logdev || $stdout.sync = true; $stdout
     end
 
     def logdev=(device)
@@ -13,7 +13,7 @@ class AppLogger
 
   private
     def create
-      ::Logger.new(logdev)
+      ::Logger.new(logdev).tap { |l| l.level = ::Logger::DEBUG }
     end
 
     def logger
