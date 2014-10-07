@@ -29,8 +29,10 @@ EM::defer do
     sleep 3
     hooks.create
     AppLogger.info('Created hooks!!')
-  rescue
+  rescue => e
     AppLogger.info('Failed to create hooks...')
+    AppLogger.info(e)
+    puts e
     retries += 1
     retry if retries < 5
   end
