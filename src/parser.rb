@@ -266,6 +266,8 @@ class Parser
         else
           unarchive_list(json)
         end
+      else
+        raise 'Undefined pattern in updateList'
       end
     end
 
