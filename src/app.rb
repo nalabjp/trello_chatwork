@@ -8,7 +8,7 @@ require "#{File.expand_path(File.dirname(__FILE__))}/hooks"
 
 set :server, 'thin'
 
-WEBHOOK_DELETE_MODE = !!ENV["WEBHOOK_DELETE_MODE"]
+WEBHOOK_DELETE_MODE = ['true', true, 1, '1'].include?(ENV["WEBHOOK_DELETE_MODE"])
 
 get '/' do
   'trello to chatwork'
