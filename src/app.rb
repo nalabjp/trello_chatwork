@@ -19,7 +19,7 @@ post '/cb' do
     any_status_code(410) # return status 410 means webhook delete
   else
     json = JSON.parse(request.body.read)
-    @@notifiers.notify(json)
+    settings.notifiers.notify(json)
   end
 end
 
@@ -49,7 +49,7 @@ EM::defer do
 end
 
 # notifiers
-@@notifiers = Notifiers.new(hooks.routes)
+set :notifiers, Notifiers.new(hooks.routes)
 
 # delete webhook
 # Require before `run Sinatra::Application`
