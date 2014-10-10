@@ -119,6 +119,9 @@ class Parser
       )
     end
 
+    def delete_card(json)
+    end
+
     def add_member_to_card(json)
       Message::Card.add_member(
         json['action']['memberCreator']['fullName'],
