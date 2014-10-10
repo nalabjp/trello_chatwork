@@ -18,7 +18,8 @@ post '/cb' do
   if WEBHOOK_DELETE_MODE
     any_status_code(410) # return status 410 means webhook delete
   else
-    notify
+    json = JSON.parse(request.body.read)
+    @@notifiers.notify(json)
   end
 end
 
@@ -26,13 +27,8 @@ head '/cb' do
   'for webhook'
 end
 
-def notify
-  json = JSON.parse(request.body.read)
-  @@notifiers.notify(json)
-end
-
 def any_status_code(status)
-  halt status.to_i, "status #{status}"
+  halt status.to_i, "status #{status.to_s}"
 end
 
 # create webhook
