@@ -8,17 +8,31 @@ require "#{File.expand_path(File.dirname(__FILE__))}/hooks"
 
 set :server, 'thin'
 
+WEBHOOK_DELETE_MODE = !!ENV["WEBHOOK_DELETE_MODE"]
+
 get '/' do
   'trello to chatwork'
 end
 
 post '/cb' do
-  json = JSON.parse(request.body.read)
-  @@notifiers.notify(json)
+  if WEBHOOK_DELETE_MODE
+    any_status_code(410) # return status 410 means webhook delete
+  else
+    notify
+  end
 end
 
 head '/cb' do
   'for webhook'
+end
+
+def notify
+  json = JSON.parse(request.body.read)
+  @@notifiers.notify(json)
+end
+
+def any_status_code(status)
+  halt status.to_i, "status #{status}"
 end
 
 # create webhook
