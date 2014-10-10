@@ -8,17 +8,27 @@ require "#{File.expand_path(File.dirname(__FILE__))}/hooks"
 
 set :server, 'thin'
 
+WEBHOOK_DELETE_MODE = ['true', true, 1, '1'].include?(ENV["WEBHOOK_DELETE_MODE"])
+
 get '/' do
   'trello to chatwork'
 end
 
 post '/cb' do
-  json = JSON.parse(request.body.read)
-  @@notifiers.notify(json)
+  if WEBHOOK_DELETE_MODE
+    any_status_code(410) # return status 410 means webhook delete
+  else
+    json = JSON.parse(request.body.read)
+    settings.notifiers.notify(json)
+  end
 end
 
 head '/cb' do
   'for webhook'
+end
+
+def any_status_code(status)
+  halt status.to_i, "status #{status.to_s}"
 end
 
 # create webhook
@@ -39,7 +49,7 @@ EM::defer do
 end
 
 # notifiers
-@@notifiers = Notifiers.new(hooks.routes)
+set :notifiers, Notifiers.new(hooks.routes)
 
 # delete webhook
 # Require before `run Sinatra::Application`
